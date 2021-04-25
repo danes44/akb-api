@@ -13,6 +13,7 @@ class MejaController extends Controller
     public function index(){
         $meja = DB::table('meja')
             ->select('no_meja','status_meja')
+            ->whereNull('meja.deleted_at')
             ->get();
 
         if(count($meja)>0){

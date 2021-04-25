@@ -88,6 +88,8 @@ class PegawaiController extends Controller
                 'pegawai.updated_at','role.role_pegawai')
             ->where('role.role_pegawai','=','Waiter')
             ->orWhere('role.role_pegawai','=','Waiter dan Kasir')
+            ->orWhere('role.role_pegawai','=','Operasional Manager')
+            ->where('pegawai.status_pegawai','=','aktif')
             ->get();
 
         if(!is_null($pegawai)){
