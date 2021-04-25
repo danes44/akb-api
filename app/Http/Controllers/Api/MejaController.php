@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Meja;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class MejaController extends Controller
 {
     public function index(){
-        $meja = Meja::all();
+        $meja = DB::table('meja')
+            ->select('no_meja','status_meja')
+            ->get();
 
         if(count($meja)>0){
             return response([
@@ -43,6 +46,26 @@ class MejaController extends Controller
             'message' => 'Meja Not Found',
             'data' => null
         ],404);
+    }
+
+    public function mejaTersedia(){
+        $meja = DB::table('meja')
+            ->where('status_meja','=','tersedia')
+            ->get();
+
+        if(count($meja)>0){
+            return response([
+                'message' =>'Retrieve All Success',
+                'data' =>$meja
+            ],200);
+        }
+
+        return response([
+            'message' => 'Empty',
+            'data' =>null
+        ],404);
+
+
     }
 
     public function store(Request $request){

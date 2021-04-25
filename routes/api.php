@@ -28,9 +28,11 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     //pegawai
     Route::post('pegawai','Api\PegawaiController@store'); //create
     Route::get('pegawai','Api\PegawaiController@index'); //read
+    Route::get('pegawai/waiter','Api\PegawaiController@showWaiter'); //show waiter
 //    Route::put('pegawai/{id}{role}','Api\PegawaiController@update'); //update
     Route::put('pegawai/{id}','Api\PegawaiController@update'); //update
     Route::get('pegawai/{id}','Api\PegawaiController@show'); //search
+    Route::post('pegawai/{id}','Api\PegawaiController@updatePassword'); //update password
 
     //role
     Route::post('role','Api\RoleController@store'); //create
@@ -49,6 +51,7 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     //meja
     Route::post('meja','Api\MejaController@store'); //create
     Route::get('meja','Api\MejaController@index'); //read
+    Route::get('meja/tersedia','Api\MejaController@mejaTersedia'); //show meja tersedia
     Route::put('meja/{id}','Api\MejaController@update'); //update
     Route::delete('meja/{id}','Api\MejaController@destroy'); //delete
     Route::get('meja/{id}','Api\MejaController@show'); //search

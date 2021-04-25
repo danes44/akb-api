@@ -64,7 +64,7 @@ class ReservasiController extends Controller
         $validate = Validator::make($storeData,[
             'id_customer' => 'required|exists:customer',
             'no_meja' => 'required|exists:meja',
-            'id_waiter' => 'required|exists:waiter,id_pegawai',
+            'id_waiter' => 'required|exists:pegawai,id_pegawai',
             'tgl_reservasi' => 'required|date',
             'sesi' => 'required|string|in:lunch,dinner',
         ]);
@@ -119,7 +119,7 @@ class ReservasiController extends Controller
         $validate = Validator::make($updateData,[
             'id_customer' => 'required|exists:customer',
             'no_meja' => 'required|exists:meja',
-            'id_waiter' => 'required|exists:waiter,id_pegawai',
+            'id_waiter' => 'required|exists:pegawai,id_pegawai',
             'tgl_reservasi' => 'required|date',
             'sesi' => 'required|string|in:lunch,dinner',
         ]);

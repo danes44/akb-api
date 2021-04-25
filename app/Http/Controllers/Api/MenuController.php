@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MenuController extends Controller
@@ -56,13 +57,14 @@ class MenuController extends Controller
     public function store(Request $request){
         $storeData = $request->all();
         $validate = Validator::make($storeData,[
-            'nama_menu' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'deskripsi' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'nama_menu' => 'required|string',
+            'deskripsi' => 'required|string',
             'unit' => 'required|string',
             'tipe_menu' => 'required|string|in:utama,side dish,minuman',
             'harga' => 'required|numeric',
             'is_available' => 'required|boolean',
-            'id_bahan'=> 'required|string|exists:bahan'
+            'id_bahan'=> 'required|string|exists:bahan',
+            'str_gambar' => 'required|mimes:jpg,bmp,png|max:5000|',
         ]);
 
         if($validate->fails())
@@ -70,6 +72,26 @@ class MenuController extends Controller
             return response(['message'=> $validate->errors()],400);
         }
 
+        if ($request->hasFile('str_gambar')) {
+            if ($request->file('str_gambar')->isValid()) {
+                $extension = $request->str_gambar->extension();
+                $name = $_SERVER['REQUEST_TIME'];
+                $request->str_gambar->storeAs('/public', $name.".".$extension);
+                $url = Storage::url($name.".".$extension);
+            }else{
+                return response([
+                    'message'=> 'Upload Photo Menu Failed (Not Valid)',
+                    'data'=> null,
+                ],400);
+            }
+        }else{
+            return response([
+                'message' => 'Upload Photo Menu Failed (No File)',
+                'data' => null,
+            ],400);
+        }
+
+        $storeData['str_gambar'] = $url;
         $menu = Menu::create($storeData);
         return response([
             'message' => 'Add Menu Success',
@@ -113,25 +135,24 @@ class MenuController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData,[
-            'nama_menu' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'deskripsi' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'nama_menu' => 'required|string',
+            'deskripsi' => 'required|string',
             'unit' => 'required|string',
             'tipe_menu' => 'required|string|in:utama,side dish,minuman',
             'harga' => 'required|numeric',
             'is_available' => 'required|boolean',
-            'id_bahan'=> 'required|string|exists:bahan'
+            'id_bahan'=> 'required|numeric|exists:bahan'
         ]);
 
         if($validate->fails())
             return response(['message'=> $validate->errors()],400);
-
 
         $menu->nama_menu =  $updateData['nama_menu'];
         $menu->deskripsi =  $updateData['deskripsi'];
         $menu->unit =  $updateData['unit'];
         $menu->tipe_menu =  $updateData['tipe_menu'];
         $menu->harga =  $updateData['harga'];
-        $menu->is_available =  $updateData['subtotal'];
+        $menu->is_available =  $updateData['is_available'];
 
         if($menu->save()){
             return response([
@@ -155,13 +176,13 @@ class MenuController extends Controller
             ],404);
         }
 
-        if(!$request->hasFile('images')) {
+        if(!$request->hasFile('str_gambar')) {
             return response([
                 'message' => 'Upload Photo Menu Failed (No File)',
                 'data' => null,
             ],400);
         }
-        $file = $request->file('images');
+        $file = $request->file('str_gambar');
 
         if(!$file->isValid()) {
             return response([
@@ -169,23 +190,30 @@ class MenuController extends Controller
                 'data'=> null,
             ],400);
         }
+
+        $updateData = $request->all();
+        $validate = Validator::make($updateData,[
+            'str_gambar' => 'required|mimes:jpg,bmp,png|max:5000|',
+        ]);
+
+        if($validate->fails())
+            return response(['message'=> $validate->errors()],400);
+
         // $imageName = $files->getClientOriginalName();
         // $request->gambar_product->move(public_path('images'),$imageName);
+        $extension = $request->str_gambar->extension();
+        $name = $_SERVER['REQUEST_TIME'];
+        $request->str_gambar->storeAs('/public', $name.".".$extension);
+        $url = Storage::url($name.".".$extension);
 
-        $image = public_path().'/images/';
-        $file -> move($image, $file->getClientOriginalName());
-        $image = '/images/'.$file->getClientOriginalName();
-        $updateData = $request->all();
-        Validator::make($updateData, [
-            'str_gambar' => $image
-        ]);
-        $menu->str_gambar = $image;
+        $updateData['str_gambar'] = $url;
+        $menu->str_gambar =  $updateData['str_gambar'];
 
 
         if($menu->save()){
             return response([
                 'message' => 'Upload Photo Menu Success',
-                'path' => $image,
+                'path' => $url,
             ],200);
         }
 

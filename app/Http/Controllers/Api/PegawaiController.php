@@ -26,9 +26,11 @@ class PegawaiController extends Controller
                 'pegawai.email',
                 'pegawai.created_at',
                 'pegawai.updated_at','role.role_pegawai')
+//            ->where('role.role_pegawai','=','Waiter')
+//            ->orWhere('role.role_pegawai','=','Waiter dan Kasir')
             ->get();
 
-        if(count($pegawai)>0){
+        if(!is_null($pegawai)){
             return response([
                 'message' =>'Retrieve All Success',
                 'data' =>$pegawai
@@ -69,6 +71,35 @@ class PegawaiController extends Controller
         return response([
             'message' => 'Pegawai Not Found',
             'data' => null
+        ],404);
+    }
+
+    public function showWaiter (){
+        $pegawai = DB::table('pegawai')
+            ->join('role','pegawai.id_role','=','role.id_role')
+            ->select('pegawai.id_pegawai','pegawai.id_role',
+                'pegawai.nama_pegawai',
+                'pegawai.jenis_kelamin',
+                'pegawai.tgl_gabung',
+                'pegawai.tgl_keluar',
+                'pegawai.status_pegawai',
+                'pegawai.email',
+                'pegawai.created_at',
+                'pegawai.updated_at','role.role_pegawai')
+            ->where('role.role_pegawai','=','Waiter')
+            ->orWhere('role.role_pegawai','=','Waiter dan Kasir')
+            ->get();
+
+        if(!is_null($pegawai)){
+            return response([
+                'message' =>'Retrieve All Success',
+                'data' =>$pegawai
+            ],200);
+        }
+
+        return response([
+            'message' => 'Empty',
+            'data' =>null
         ],404);
     }
 
@@ -187,7 +218,6 @@ class PegawaiController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData,[
-            'password'=>'required',
             'newPassword'=>'required',
             'confirmPassword'=>'required'
         ]);
@@ -195,14 +225,9 @@ class PegawaiController extends Controller
         if($validate->fails()){
             return response(['message'=>$validate->errors()],404);//return error invalid input
         }else{
-            if((Hash::check(request('password'), Auth::user()->password))==false){
+            if($updateData['newPassword'] != $updateData['confirmPassword']){
                 return response([
-                    'message'=>'Please check your old password ',
-                    'data'=>null,
-                ],404);//return message saat user gagal diedit
-            }else if($updateData['newPassword'] != $updateData['confirmPassword']){
-                return response([
-                    'message'=>'new password doesnt match',
+                    'message'=>'Password tidak sama',
                     'data'=>null,
                 ],404);//return message saat user gagal diedit
             }else{

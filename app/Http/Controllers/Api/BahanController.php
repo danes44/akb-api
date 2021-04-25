@@ -48,7 +48,7 @@ class BahanController extends Controller
     public function store(Request $request){
         $storeData = $request->all();
         $validate = Validator::make($storeData,[
-            'nama_bahan' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'nama_bahan' => 'required|string',
             'jumlah_stok' => 'required|numeric',
             'jumlah_per_sajian' => 'required|numeric',
             'unit'=>'required|string'
@@ -102,7 +102,7 @@ class BahanController extends Controller
 
         $updateData = $request->all();
         $validate = Validator::make($updateData,[
-            'nama_bahan' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'nama_bahan' => 'required|string',
             'jumlah_stok' => 'required|numeric',
             'jumlah_per_sajian' => 'required|numeric',
             'unit'=>'required|string'
@@ -114,7 +114,7 @@ class BahanController extends Controller
 
         $bahan->nama_bahan =  $updateData['nama_bahan'];
         $bahan->jumlah_stok = $updateData['jumlah_stok'];
-        $bahan->jumlah_per_stok = $updateData['jumlah_per_sajian'];
+        $bahan->jumlah_per_sajian = $updateData['jumlah_per_sajian'];
         $bahan->unit = $updateData['unit'];
 
         if($bahan->save()){
