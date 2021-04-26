@@ -51,7 +51,8 @@ class BahanController extends Controller
             'nama_bahan' => 'required|string',
             'jumlah_stok' => 'required|numeric',
             'jumlah_per_sajian' => 'required|numeric',
-            'unit'=>'required|string'
+            'unit'=>'required|string',
+            'ketersediaan' => 'required|boolean',
         ]);
 
         if($validate->fails())
@@ -105,7 +106,8 @@ class BahanController extends Controller
             'nama_bahan' => 'required|string',
             'jumlah_stok' => 'required|numeric',
             'jumlah_per_sajian' => 'required|numeric',
-            'unit'=>'required|string'
+            'unit'=>'required|string',
+            'ketersediaan' => 'required|boolean',
         ]);
 
         if($validate->fails())
@@ -116,6 +118,7 @@ class BahanController extends Controller
         $bahan->jumlah_stok = $updateData['jumlah_stok'];
         $bahan->jumlah_per_sajian = $updateData['jumlah_per_sajian'];
         $bahan->unit = $updateData['unit'];
+        $bahan->ketersediaan = $updateData['ketersediaan'];
 
         if($bahan->save()){
             return response([

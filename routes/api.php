@@ -52,12 +52,15 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     Route::post('meja','Api\MejaController@store'); //create
     Route::get('meja','Api\MejaController@index'); //read
     Route::get('meja/tersedia','Api\MejaController@mejaTersedia'); //show meja tersedia
+    Route::get('meja/pertanggal/{tanggal}','Api\MejaController@mejaTersedia'); //show meja per tanggal
     Route::put('meja/{id}','Api\MejaController@update'); //update
     Route::delete('meja/{id}','Api\MejaController@destroy'); //delete
     Route::get('meja/{id}','Api\MejaController@show'); //search
 
     //reservasi
     Route::post('reservasi','Api\ReservasiController@store'); //create
+    Route::post('reservasi/select','Api\ReservasiController@showSelect'); //read
+    Route::post('reservasi/updateStatus/{id}','Api\ReservasiController@updateStatus'); //update status reservasi
     Route::get('reservasi','Api\ReservasiController@index'); //read
     Route::put('reservasi/{id}','Api\ReservasiController@update'); //update
     Route::delete('reservasi/{id}','Api\ReservasiController@destroy'); //delete
@@ -84,6 +87,8 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
 
     //menu
     Route::post('menu','Api\MenuController@store'); //create
+//    Route::put('menu/updateKetersediaan/{id}','Api\MenuController@updateKetersediaan'); //update ketersediaan
+//    Route::get('menu/updateKetersediaan/{id}','Api\MenuController@updateKetersediaan'); //update ketersediaan
     Route::get('menu','Api\MenuController@index'); //read
     Route::put('menu/{id}','Api\MenuController@update'); //update
     Route::delete('menu/{id}','Api\MenuController@destroy'); //delete

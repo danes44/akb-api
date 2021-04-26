@@ -14,7 +14,7 @@ class MenuController extends Controller
     public function index(){
         $menu = DB::table('menu')
             ->join('bahan','menu.id_bahan','=','bahan.id_bahan')
-            ->select('menu.*','bahan.jumlah_stok')
+            ->select('menu.*','bahan.jumlah_stok','bahan.jumlah_per_sajian','bahan.ketersediaan')
             ->whereNull('menu.deleted_at')
             ->get();
 
@@ -34,7 +34,7 @@ class MenuController extends Controller
     public function show ($id){
         $menu = DB::table('menu')
             ->join('bahan','menu.id_bahan','=','bahan.id_bahan')
-            ->select('menu.*','bahan.jumlah_stok')
+            ->select('menu.*','bahan.jumlah_stok','bahan.jumlah_per_sajian','bahan.ketersediaan')
             ->where('menu.id_menu','=',$id)
             ->whereNull('menu.deleted_at')
             ->get();
@@ -62,7 +62,7 @@ class MenuController extends Controller
             'unit' => 'required|string',
             'tipe_menu' => 'required|string|in:utama,side dish,minuman',
             'harga' => 'required|numeric',
-            'is_available' => 'required|boolean',
+//            'is_available' => 'required|boolean',
             'id_bahan'=> 'required|string|exists:bahan',
             'str_gambar' => 'required|mimes:jpg,bmp,png|max:5000|',
         ]);
@@ -140,19 +140,19 @@ class MenuController extends Controller
             'unit' => 'required|string',
             'tipe_menu' => 'required|string|in:utama,side dish,minuman',
             'harga' => 'required|numeric',
-            'is_available' => 'required|boolean',
+//            'is_available' => 'required|boolean',
             'id_bahan'=> 'required|numeric|exists:bahan'
         ]);
 
         if($validate->fails())
             return response(['message'=> $validate->errors()],400);
-
+        $menu->id_bahan =  $updateData['id_bahan'];
         $menu->nama_menu =  $updateData['nama_menu'];
         $menu->deskripsi =  $updateData['deskripsi'];
         $menu->unit =  $updateData['unit'];
         $menu->tipe_menu =  $updateData['tipe_menu'];
         $menu->harga =  $updateData['harga'];
-        $menu->is_available =  $updateData['is_available'];
+//        $menu->is_available =  $updateData['is_available'];
 
         if($menu->save()){
             return response([

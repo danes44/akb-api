@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use function PHPUnit\Framework\isNull;
 
 class PegawaiController extends Controller
 {
@@ -23,6 +24,7 @@ class PegawaiController extends Controller
                 'pegawai.tgl_gabung',
                 'pegawai.tgl_keluar',
                 'pegawai.status_pegawai',
+                'pegawai.no_telp_pegawai',
                 'pegawai.email',
                 'pegawai.created_at',
                 'pegawai.updated_at','role.role_pegawai')
@@ -54,6 +56,7 @@ class PegawaiController extends Controller
                 'pegawai.tgl_gabung',
                 'pegawai.tgl_keluar',
                 'pegawai.status_pegawai',
+                'pegawai.no_telp_pegawai',
                 'pegawai.email',
                 'pegawai.created_at',
                 'pegawai.updated_at','role.role_pegawai')
@@ -83,16 +86,20 @@ class PegawaiController extends Controller
                 'pegawai.tgl_gabung',
                 'pegawai.tgl_keluar',
                 'pegawai.status_pegawai',
+                'pegawai.no_telp_pegawai',
                 'pegawai.email',
                 'pegawai.created_at',
-                'pegawai.updated_at','role.role_pegawai')
-            ->where('role.role_pegawai','=','Waiter')
-            ->orWhere('role.role_pegawai','=','Waiter dan Kasir')
-            ->orWhere('role.role_pegawai','=','Operasional Manager')
+                'pegawai.updated_at',
+                'role.role_pegawai')
             ->where('pegawai.status_pegawai','=','aktif')
+            ->where(function ($query) {
+                $query->where('role.role_pegawai','=','Waiter dan Kasir')
+                    ->orWhere('role.role_pegawai','=','Waiter')
+                    ->orWhere('role.role_pegawai','=','Operasional Manager');
+            })
             ->get();
 
-        if(!is_null($pegawai)){
+        if(count($pegawai)>0){
             return response([
                 'message' =>'Retrieve All Success',
                 'data' =>$pegawai
@@ -107,16 +114,49 @@ class PegawaiController extends Controller
 
     public function store(Request $request){
         $storeData = $request->all();
-        $validate = Validator::make($storeData,[
-            'id_role' => 'required|exists:role',
-            'nama_pegawai' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'jenis_kelamin' => 'required|string|in:pria,wanita',
-            'tgl_gabung' => 'required|date',
-            'tgl_keluar' => 'nullable|date',
-            'status_pegawai' => 'required|string|in:aktif,non aktif',
-            'email' => 'required|string|email|unique:pegawai',
-            'password' => 'required|string'
-        ]);
+        if($storeData['status_pegawai']=='non aktif'){
+            $validate = Validator::make($storeData,[
+                'id_role'=> 'required|exists:role',
+                'nama_pegawai' => 'required|string|regex:/^[\pL\s\-]+$/u',
+                'jenis_kelamin' => 'required|string|in:pria,wanita',
+                'no_telp_pegawai'=> 'numeric|digits_between:10,15|starts_with:08',
+                'tgl_gabung' => 'required|date',
+                'tgl_keluar' => 'required|date',
+                'status_pegawai' => 'required|string|in:aktif,non aktif',
+                'password' => 'required|string',
+                'email' => 'required|string|email|unique:pegawai',
+
+            ],
+                [
+                    'tgl_keluar.required' => 'Tanggal Keluar required karena status non aktif'
+                ]
+            );
+        }
+        else{
+            $validate = Validator::make($storeData,[
+                'id_role'=> 'required|exists:role',
+                'nama_pegawai' => 'required|string|regex:/^[\pL\s\-]+$/u',
+                'jenis_kelamin' => 'required|string|in:pria,wanita',
+                'no_telp_pegawai'=> 'numeric|digits_between:10,15|starts_with:08',
+                'tgl_gabung' => 'required|date',
+                'tgl_keluar' => 'nullable|date',
+                'status_pegawai' => 'required|string|in:aktif,non aktif',
+                'password' => 'required|string',
+                'email' => 'required|string|email|unique:pegawai',
+
+            ]);
+        }
+//        $validate = Validator::make($storeData,[
+//            'id_role' => 'required|exists:role',
+//            'nama_pegawai' => 'required|string|regex:/^[\pL\s\-]+$/u',
+//            'jenis_kelamin' => 'required|string|in:pria,wanita',
+//            'no_telp_pegawai'=> 'numeric|digits_between:10,15|starts_with:08',
+//            'tgl_gabung' => 'required|date',
+//            'tgl_keluar' => 'nullable|date',
+//            'status_pegawai' => 'required|string|in:aktif,non aktif',
+//            'email' => 'required|string|email|unique:pegawai',
+//            'password' => 'required|string'
+//        ]);
 
         if($validate->fails())
         {
@@ -166,17 +206,36 @@ class PegawaiController extends Controller
 
 
         $updateData = $request->all();
-        $validate = Validator::make($updateData,[
-//            'role_pegawai' => 'required|exists:role',
-            'id_role'=> 'required|numeric|exists:role',
-            'nama_pegawai' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'jenis_kelamin' => 'required|string|in:pria,wanita',
-            'tgl_gabung' => 'required|date',
-            'tgl_keluar' => 'nullable|date',
-            'status_pegawai' => 'required|string|in:aktif,non aktif',
-            'email' => ['required','string','email:rfc,dns',Rule::unique('pegawai')->ignore($pegawai)],
+        if($updateData['status_pegawai']=='non aktif'){
+            $validate = Validator::make($updateData,[
+                'id_role'=> 'required|numeric|exists:role',
+                'nama_pegawai' => 'required|string|regex:/^[\pL\s\-]+$/u',
+                'jenis_kelamin' => 'required|string|in:pria,wanita',
+                'no_telp_pegawai'=> 'numeric|digits_between:10,15|starts_with:08',
+                'tgl_gabung' => 'required|date',
+                'tgl_keluar' => 'required|date',
+                'status_pegawai' => 'required|string|in:aktif,non aktif',
+                'email' => ['required','string','email:rfc,dns',Rule::unique('pegawai')->ignore($pegawai)],
 
-        ]);
+            ],
+                [
+                    'tgl_keluar.required' => 'Tanggal Keluar required karena status non aktif'
+                ]
+            );
+        }
+        else{
+            $validate = Validator::make($updateData,[
+                'id_role'=> 'required|numeric|exists:role',
+                'nama_pegawai' => 'required|string|regex:/^[\pL\s\-]+$/u',
+                'jenis_kelamin' => 'required|string|in:pria,wanita',
+                'no_telp_pegawai'=> 'numeric|digits_between:10,15|starts_with:08',
+                'tgl_gabung' => 'required|date',
+                'tgl_keluar' => 'nullable|date',
+                'status_pegawai' => 'required|string|in:aktif,non aktif',
+                'email' => ['required','string','email:rfc,dns',Rule::unique('pegawai')->ignore($pegawai)],
+
+            ]);
+        }
 
 //        $id_role = DB::table('role')
 //            ->select('id_role')
@@ -190,6 +249,7 @@ class PegawaiController extends Controller
         $pegawai->id_role =  $updateData['id_role'];
         $pegawai->nama_pegawai =  $updateData['nama_pegawai'];
         $pegawai->jenis_kelamin =  $updateData['jenis_kelamin'];
+        $pegawai->no_telp_pegawai =  $updateData['no_telp_pegawai'];
         $pegawai->tgl_gabung =  $updateData['tgl_gabung'];
         $pegawai->tgl_keluar =  $updateData['tgl_keluar'];
         $pegawai->status_pegawai =  $updateData['status_pegawai'];

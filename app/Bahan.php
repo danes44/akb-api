@@ -14,7 +14,7 @@ class Bahan extends Model
     public $timestamps = true;
 
     protected $fillable = [
-      'nama_bahan','jumlah_stok','jumlah_per_sajian','unit'
+      'nama_bahan','jumlah_stok','jumlah_per_sajian','unit','ketersediaan'
     ];
 
     public function getCreatedAtAttribute(){

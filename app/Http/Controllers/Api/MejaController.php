@@ -16,6 +16,19 @@ class MejaController extends Controller
             ->whereNull('meja.deleted_at')
             ->get();
 
+
+
+//        foreach ($meja as $m) {
+//            $reservasi= DB::table('reservasi')
+//                ->join('meja','meja.no_meja','=','reservasi.id_reservasi')
+//                ->select('reservasi.*')
+//                ->where('reservasi.no_meja','=',$m->no_meja)
+//                ->where('reservasi.tgl_reservasi','=',today())
+//                ->get();
+//        }
+//
+
+
         if(count($meja)>0){
             return response([
                 'message' =>'Retrieve All Success',
@@ -34,13 +47,11 @@ class MejaController extends Controller
     public function show ($id){
         $meja = Meja::find($id);
 
-
         if(!is_null($meja)){
             return response([
                 'message'  => 'Retrieve Meja Success',
                 'data' => $meja
             ],200);
-
         }
 
         return response([
@@ -52,6 +63,7 @@ class MejaController extends Controller
     public function mejaTersedia(){
         $meja = DB::table('meja')
             ->where('status_meja','=','tersedia')
+            ->whereNull('deleted_at')
             ->get();
 
         if(count($meja)>0){
@@ -65,8 +77,28 @@ class MejaController extends Controller
             'message' => 'Empty',
             'data' =>null
         ],404);
+    }
 
+    public function mejaPerTanggal($tanggal){
+        $meja = DB::table('meja')
+            ->join('reservasi','reservasi.no_meja','=','meja.no_meja')
+            ->select('meja.no_meja','meja.status_meja','reservasi.tgl_reservasi')
+            ->where('reservasi.tgl_reservasi','=',$tanggal)
+            ->whereNull('reservasi.deleted_at')
+            ->whereNull('meja.deleted_at')
+            ->get();
 
+        if(count($meja)>0){
+            return response([
+                'message' =>'Retrieve All Success',
+                'data' =>$meja
+            ],200);
+        }
+
+        return response([
+            'message' => 'Empty',
+            'data' =>null
+        ],404);
     }
 
     public function store(Request $request){
@@ -80,7 +112,7 @@ class MejaController extends Controller
             return response(['message'=> $validate->errors()],400);
         }
 
-        $meja = meja::create($storeData);
+        $meja = Meja::create($storeData);
         return response([
             'message' => 'Add Meja Success',
             'data' => $meja,

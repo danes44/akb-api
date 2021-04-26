@@ -34,6 +34,37 @@ class ReservasiController extends Controller
 
     }
 
+    public function showSelect(Request $request){
+        $updateData = $request->all();
+        $validate = Validator::make($updateData,[
+            'tgl_reservasi' => 'required|date',
+            'sesi' => 'required|string|in:lunch,dinner',
+        ]);
+
+        if($validate->fails())
+            return response(['message'=> $validate->errors()],400);
+
+        $reservasi = DB::table('reservasi')
+            ->where('tgl_reservasi','=',$updateData['tgl_reservasi'])
+            ->where('sesi','=',$updateData['sesi'])
+            ->where('status_reservasi','not like','selesai')
+            ->whereNull('deleted_at')
+            ->get();
+
+        if(count($reservasi)>0){
+            return response([
+                'message'  => 'Retrieve Reservasi Success',
+                'data' => $reservasi
+            ],200);
+
+        }
+
+        return response([
+            'message' => 'Reservasi Not Found',
+            'data' => null
+        ],404);
+    }
+
     public function show ($id){
         $reservasi = DB::table('reservasi')
             ->join('customer','customer.id_customer','=','reservasi.id_customer')
@@ -67,6 +98,7 @@ class ReservasiController extends Controller
             'id_waiter' => 'required|exists:pegawai,id_pegawai',
             'tgl_reservasi' => 'required|date',
             'sesi' => 'required|string|in:lunch,dinner',
+            'status_reservasi' => 'required|string|in:aktif,non aktif,selesai',
         ]);
 
         if($validate->fails())
@@ -122,6 +154,7 @@ class ReservasiController extends Controller
             'id_waiter' => 'required|exists:pegawai,id_pegawai',
             'tgl_reservasi' => 'required|date',
             'sesi' => 'required|string|in:lunch,dinner',
+            'status_reservasi' => 'required|string|in:aktif,non aktif,selesai',
         ]);
 
         if($validate->fails())
@@ -134,6 +167,7 @@ class ReservasiController extends Controller
         $reservasi->sesi =  $updateData['sesi'];
 
 
+
         if($reservasi->save()){
             return response([
                 'message' => 'Update Reservasi Success',
@@ -143,6 +177,38 @@ class ReservasiController extends Controller
 
         return response([
             'message'=>'Update Reservasi Failed',
+            'data'=>null,
+        ],400);
+    }
+
+    public function updateStatus(Request $request, $id){
+        $reservasi = Reservasi::find($id);
+        if(is_null($reservasi)){
+            return response([
+                'message'=>'Reservasi Not Found',
+                'data'=>null
+            ],404);
+        }
+
+        $updateData = $request->all();
+        $validate = Validator::make($updateData,[
+            'status_reservasi' => 'required|string|in:aktif,non aktif,selesai',
+        ]);
+
+        if($validate->fails())
+            return response(['message'=> $validate->errors()],400);
+
+        $reservasi->status_reservasi =  $updateData['status_reservasi'];
+
+        if($reservasi->save()){
+            return response([
+                'message' => 'Update Status Reservasi Success',
+                'data'=> $reservasi,
+            ],200);
+        }
+
+        return response([
+            'message'=>'Update Status Reservasi Failed',
             'data'=>null,
         ],400);
     }

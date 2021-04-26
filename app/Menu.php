@@ -14,7 +14,7 @@ class Menu extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'nama_menu','deskripsi','unit','tipe_menu','harga','is_available','str_gambar','id_bahan'
+        'nama_menu','deskripsi','unit','tipe_menu','harga','str_gambar','id_bahan'
     ];
 
     public function getCreatedAtAttribute(){
@@ -28,4 +28,8 @@ class Menu extends Model
             return Carbon::parse($this->attributes['updated_at'])->format('Y-m-d H:i:s');
         }
     }
+
+    protected $hidden = [
+        'is_available'
+    ];
 }
