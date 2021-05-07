@@ -41,8 +41,8 @@ class ReservasiController extends Controller
             'sesi' => 'required|string|in:lunch,dinner',
         ]);
 
-        if($validate->fails())
-            return response(['message'=> $validate->errors()],400);
+//        if($validate->fails())
+//            return response(['message'=> $validate->errors()],400);
 
         $reservasi = DB::table('reservasi')
             ->where('tgl_reservasi','=',$updateData['tgl_reservasi'])
@@ -51,18 +51,10 @@ class ReservasiController extends Controller
             ->whereNull('deleted_at')
             ->get();
 
-        if(count($reservasi)>0){
-            return response([
-                'message'  => 'Retrieve Reservasi Success',
-                'data' => $reservasi
-            ],200);
-
-        }
-
         return response([
-            'message' => 'Reservasi Not Found',
-            'data' => null
-        ],404);
+            'message'  => 'Retrieve Reservasi Success',
+            'data' => $reservasi
+        ],200);
     }
 
     public function show ($id){
@@ -154,7 +146,7 @@ class ReservasiController extends Controller
             'id_waiter' => 'required|exists:pegawai,id_pegawai',
             'tgl_reservasi' => 'required|date',
             'sesi' => 'required|string|in:lunch,dinner',
-            'status_reservasi' => 'required|string|in:aktif,non aktif,selesai',
+//            'status_reservasi' => 'required|string|in:aktif,non aktif,selesai',
         ]);
 
         if($validate->fails())

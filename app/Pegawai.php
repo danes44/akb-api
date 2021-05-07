@@ -16,7 +16,7 @@ class Pegawai extends Authenticatable
     public $timestamps = true;
 
     protected $fillable = [
-        'nama_pegawai','id_role','jenis_kelamin','tgl_gabung','tgl_keluar','status_pegawai','email','password'
+        'nama_pegawai','id_role','no_telp_pegawai','jenis_kelamin','tgl_gabung','tgl_keluar','status_pegawai','email','password'
     ];
 
     public function getCreatedAtAttribute(){

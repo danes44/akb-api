@@ -26,12 +26,13 @@ Route::group(['middleware'=>'auth:api'],function() {
 
 Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar debug api
     //pegawai
-    Route::post('pegawai','Api\PegawaiController@store'); //create
     Route::get('pegawai','Api\PegawaiController@index'); //read
+    Route::post('pegawai','Api\PegawaiController@store'); //create
     Route::get('pegawai/waiter','Api\PegawaiController@showWaiter'); //show waiter
 //    Route::put('pegawai/{id}{role}','Api\PegawaiController@update'); //update
     Route::put('pegawai/{id}','Api\PegawaiController@update'); //update
     Route::get('pegawai/{id}','Api\PegawaiController@show'); //search
+    Route::delete('pegawai/{id}','Api\PegawaiController@destroy'); //delete
     Route::post('pegawai/{id}','Api\PegawaiController@updatePassword'); //update password
 
     //role
@@ -98,6 +99,7 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     //bahan
     Route::post('bahan','Api\BahanController@store'); //create
     Route::get('bahan','Api\BahanController@index'); //read
+    Route::get('bahan/kosong','Api\BahanController@showKosong'); //read kosong
     Route::put('bahan/{id}','Api\BahanController@update'); //update
     Route::delete('bahan/{id}','Api\BahanController@destroy'); //delete
     Route::get('bahan/{id}','Api\BahanController@show'); //search

@@ -14,7 +14,7 @@ class Reservasi extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'id_customer','no_meja','tgl_reservasi','sesi','id_waiter'
+        'id_customer','no_meja','tgl_reservasi','sesi','id_waiter','status_reservasi'
     ];
 
     public function getCreatedAtAttribute(){

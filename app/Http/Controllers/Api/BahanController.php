@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Bahan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,6 +30,27 @@ class BahanController extends Controller
 
     public function show ($id){
         $bahan=Bahan::find($id);
+
+
+        if(!is_null($bahan)){
+            return response([
+                'message'  => 'Retrieve Bahan Success',
+                'data' => $bahan
+            ],200);
+
+        }
+
+        return response([
+            'message' => 'Bahan Not Found',
+            'data' => null
+        ],404);
+    }
+
+    public function showKosong (){
+        $bahan=DB::table('bahan')
+            ->whereNull('deleted_at')
+            ->where('jumlah_stok','=',0)
+            ->get();
 
 
         if(!is_null($bahan)){
