@@ -19,13 +19,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f290eb25-3427-4f92-ba15-b540a181038b" name="Default Changelist" comment="add some handlers in ReservasiController">
+    <list default="true" id="f290eb25-3427-4f92-ba15-b540a181038b" name="Default Changelist" comment="add some handlers in controller Bahan, Pegawai, Reservasi. Add some coloumns in Reservasi, Pegawai. add some apis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/BahanController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/BahanController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PegawaiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PegawaiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/DetailOrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/DetailOrderController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ReservasiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ReservasiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Pegawai.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Pegawai.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Reservasi.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Reservasi.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/StokKeluarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/StokKeluarController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/StokMasukController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/StokMasukController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/StokMasuk.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/StokMasuk.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_04_26_180145_add_field_status_reservasi.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -240,7 +242,17 @@
       <workItem from="1619945144242" duration="1621000" />
       <workItem from="1620198274409" duration="1381000" />
       <workItem from="1620285039827" duration="808000" />
-      <workItem from="1620375240543" duration="2678000" />
+      <workItem from="1620375240543" duration="3469000" />
+      <workItem from="1620438078460" duration="3271000" />
+      <workItem from="1620551099879" duration="2270000" />
+      <workItem from="1620632828591" duration="6234000" />
+      <workItem from="1620735988675" duration="3753000" />
+      <workItem from="1620840508694" duration="1786000" />
+      <workItem from="1620882296139" duration="1215000" />
+      <workItem from="1620913832985" duration="590000" />
+      <workItem from="1620973991225" duration="4713000" />
+      <workItem from="1621059840401" duration="2690000" />
+      <workItem from="1621136999041" duration="4568000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1619018109407</created>
@@ -270,7 +282,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619443439178</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add some handlers in controller Bahan, Pegawai, Reservasi. Add some coloumns in Reservasi, Pegawai. add some apis">
+      <created>1620409584402</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1620409584402</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,7 +312,8 @@
     <MESSAGE value="fix some bugs" />
     <MESSAGE value="add some where clause" />
     <MESSAGE value="add some handlers in ReservasiController" />
-    <option name="LAST_COMMIT_MESSAGE" value="add some handlers in ReservasiController" />
+    <MESSAGE value="add some handlers in controller Bahan, Pegawai, Reservasi. Add some coloumns in Reservasi, Pegawai. add some apis" />
+    <option name="LAST_COMMIT_MESSAGE" value="add some handlers in controller Bahan, Pegawai, Reservasi. Add some coloumns in Reservasi, Pegawai. add some apis" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2056" y="280" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1618644978833">

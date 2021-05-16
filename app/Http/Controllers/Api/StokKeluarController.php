@@ -14,7 +14,7 @@ class StokKeluarController extends Controller
         $StokKeluar = DB::table('stok_keluar')
             ->join('bahan','bahan.id_bahan','=','stok_keluar.id_bahan')
             ->select('stok_keluar.*','bahan.nama_bahan')
-            ->whereNull('stok_masuk.deleted_at')
+            ->whereNull('stok_keluar.deleted_at')
             ->get();
 
         if(count($StokKeluar)>0){
@@ -35,7 +35,7 @@ class StokKeluarController extends Controller
             ->join('bahan','bahan.id_bahan','=','stok_keluar.id_bahan')
             ->select('stok_keluar.*','bahan.nama_bahan')
             ->where('stok_keluar.id_stok_keluar','=',$id)
-            ->whereNull('stok_masuk.deleted_at')
+            ->whereNull('stok_keluar.deleted_at')
             ->get();
 
 
@@ -110,7 +110,7 @@ class StokKeluarController extends Controller
         $updateData = $request->all();
         $validate = Validator::make($updateData,[
             'jumlah' => 'required|numeric',
-            'harga' => 'required|numeric',
+            'status' => 'required|string|in:keluar,sisa',
             'id_bahan' => 'required|exists:bahan',
         ]);
 
@@ -118,7 +118,7 @@ class StokKeluarController extends Controller
             return response(['message'=> $validate->errors()],400);
 
         $StokKeluar->jumlah =  $updateData['jumlah'];
-        $StokKeluar->harga =  $updateData['harga'];
+        $StokKeluar->status =  $updateData['status'];
         $StokKeluar->id_bahan =  $updateData['id_bahan'];
 
         if($StokKeluar->save()){

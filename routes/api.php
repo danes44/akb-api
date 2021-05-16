@@ -80,11 +80,17 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     Route::delete('kartu/{id}','Api\KartuController@destroy'); //delete
     Route::get('kartu/{id}','Api\KartuController@show'); //search
 
+    //order
+    Route::post('order','Api\OrderController@store'); //create
+    Route::get('order','Api\OrderController@index'); //read
+    Route::put('order/{id}','Api\OrderController@update'); //update
+    Route::get('order/{id}','Api\OrderController@show'); //search
+
     //detail order
-    Route::post('detailOrder','Api\DetailPesananController@store'); //create
-    Route::get('detailOrder','Api\DetailPesananController@index'); //read
-    Route::put('detailOrder/{id}','Api\DetailPesananController@update'); //update
-    Route::get('detailOrder/{id}','Api\DetailPesananController@show'); //search
+    Route::post('detailOrder','Api\DetailOrderController@store'); //create
+    Route::get('detailOrder','Api\DetailOrderController@index'); //read
+    Route::put('detailOrder/{id}','Api\DetailOrderController@update'); //update
+    Route::get('detailOrder/{id}','Api\DetailOrderController@show'); //search
 
     //menu
     Route::post('menu','Api\MenuController@store'); //create
@@ -100,12 +106,15 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     Route::post('bahan','Api\BahanController@store'); //create
     Route::get('bahan','Api\BahanController@index'); //read
     Route::get('bahan/kosong','Api\BahanController@showKosong'); //read kosong
+    Route::put('bahan/stokMasuk/{id}','Api\BahanController@updateStokMasuk'); //update dari stok masuk
+    Route::put('bahan/stokKeluar/{id}','Api\BahanController@updateStokKeluar'); //update dari stok keluar
     Route::put('bahan/{id}','Api\BahanController@update'); //update
     Route::delete('bahan/{id}','Api\BahanController@destroy'); //delete
     Route::get('bahan/{id}','Api\BahanController@show'); //search
 
     //stok Masuk
     Route::post('stokMasuk','Api\StokMasukController@store'); //create
+    Route::post('stokMasuk/showTanggal','Api\StokMasukController@showPerTanggal'); //search tanggal
     Route::get('stokMasuk','Api\StokMasukController@index'); //read
     Route::put('stokMasuk/{id}','Api\StokMasukController@update'); //update
     Route::delete('stokMasuk/{id}','Api\StokMasukController@destroy'); //delete

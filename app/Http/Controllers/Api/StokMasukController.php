@@ -53,6 +53,29 @@ class StokMasukController extends Controller
         ],404);
     }
 
+    public function showPerTanggal (Request $request){
+        $updateData = $request->all();
+
+        $stokMasuk=DB::table('stok_masuk')
+            ->whereNull('deleted_at')
+            ->whereDate('created_at','=',$updateData['created_at'])
+            ->get();
+
+
+        if(!is_null($stokMasuk)){
+            return response([
+                'message'  => 'Retrieve Stok Masuk Success',
+                'data' => $stokMasuk
+            ],200);
+
+        }
+
+        return response([
+            'message' => 'Stok Masuk Not Found',
+            'data' => null
+        ],404);
+    }
+
     public function store(Request $request){
         $storeData = $request->all();
         $validate = Validator::make($storeData,[

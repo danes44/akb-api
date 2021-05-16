@@ -19,7 +19,7 @@ class StokMasuk extends Model
 
     public function getCreatedAtAttribute(){
         if(!is_null($this->attributes['created_at'])){
-            return Carbon::parse($this->attributes['created_at'])->format('Y-m-d H:i:s');
+            return Carbon::parse($this->attributes['created_at'])->format('Y-m-d');
         }
     }
 

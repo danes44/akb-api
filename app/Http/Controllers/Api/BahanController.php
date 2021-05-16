@@ -74,7 +74,6 @@ class BahanController extends Controller
             'jumlah_stok' => 'required|numeric',
             'jumlah_per_sajian' => 'required|numeric',
             'unit'=>'required|string',
-            'ketersediaan' => 'required|boolean',
         ]);
 
         if($validate->fails())
@@ -82,6 +81,10 @@ class BahanController extends Controller
             return response(['message'=> $validate->errors()],400);
         }
 
+        if($storeData['jumlah_stok']>=$storeData['jumlah_per_sajian'])
+            $storeData['ketersediaan']=true;
+        else
+            $storeData['ketersediaan']=false;
         $bahan = Bahan::create($storeData);
         return response([
             'message' => 'Add Bahan Success',
@@ -129,7 +132,6 @@ class BahanController extends Controller
             'jumlah_stok' => 'required|numeric',
             'jumlah_per_sajian' => 'required|numeric',
             'unit'=>'required|string',
-            'ketersediaan' => 'required|boolean',
         ]);
 
         if($validate->fails())
@@ -140,6 +142,90 @@ class BahanController extends Controller
         $bahan->jumlah_stok = $updateData['jumlah_stok'];
         $bahan->jumlah_per_sajian = $updateData['jumlah_per_sajian'];
         $bahan->unit = $updateData['unit'];
+
+        if($updateData['jumlah_stok']>=$updateData['jumlah_per_sajian'])
+            $updateData['ketersediaan']=true;
+        else
+            $updateData['ketersediaan']=false;
+
+        $bahan->ketersediaan = $updateData['ketersediaan'];
+
+        if($bahan->save()){
+            return response([
+                'message' => 'Update Bahan Success',
+                'data'=> $bahan,
+            ],200);
+        }
+
+        return response([
+            'message'=>'Update Bahan Failed',
+            'data'=>null,
+        ],400);
+    }
+
+    public function updateStokMasuk(Request $request, $id){
+        $bahan = Bahan::find($id);
+        if(is_null($bahan)){
+            return response([
+                'message'=>'Bahan Not Found',
+                'data'=>null
+            ],404);
+        }
+
+        $updateData = $request->all();
+        $validate = Validator::make($updateData,[
+            'jumlah_stok' => 'required|numeric',
+        ]);
+
+        if($validate->fails())
+            return response(['message'=> $validate->errors()],400);
+
+        $bahan->jumlah_stok = $bahan->jumlah_stok+$updateData['jumlah_stok'];
+
+        if($bahan->jumlah_stok>=$bahan->jumlah_per_sajian)
+            $updateData['ketersediaan']=true;
+        else
+            $updateData['ketersediaan']=false;
+
+        $bahan->ketersediaan = $updateData['ketersediaan'];
+
+        if($bahan->save()){
+            return response([
+                'message' => 'Update Bahan Success',
+                'data'=> $bahan,
+            ],200);
+        }
+
+        return response([
+            'message'=>'Update Bahan Failed',
+            'data'=>null,
+        ],400);
+    }
+
+    public function updateStokKeluar(Request $request, $id){
+        $bahan = Bahan::find($id);
+        if(is_null($bahan)){
+            return response([
+                'message'=>'Bahan Not Found',
+                'data'=>null
+            ],404);
+        }
+
+        $updateData = $request->all();
+        $validate = Validator::make($updateData,[
+            'jumlah_stok' => 'required|numeric',
+        ]);
+
+        if($validate->fails())
+            return response(['message'=> $validate->errors()],400);
+
+        $bahan->jumlah_stok = $bahan->jumlah_stok-$updateData['jumlah_stok'];
+
+        if($bahan->jumlah_stok>=$bahan->jumlah_per_sajian)
+            $updateData['ketersediaan']=true;
+        else
+            $updateData['ketersediaan']=false;
+
         $bahan->ketersediaan = $updateData['ketersediaan'];
 
         if($bahan->save()){

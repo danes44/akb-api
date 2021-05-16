@@ -14,7 +14,7 @@ class DetailOrderController extends Controller
         $detail_order = DB::table('detail_order')
             ->join('order','detail_order.id_order','=','detail_order.id_order')
             ->join('menu','menu.id_menu','=','detail_order.id_menu')
-            ->select('detail_order.*','order.id_order','')
+            ->select('detail_order.*','order.id_order')
             ->get();
 
         if(count($detail_order)>0){
