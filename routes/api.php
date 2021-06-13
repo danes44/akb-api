@@ -29,6 +29,7 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     Route::get('pegawai','Api\PegawaiController@index'); //read
     Route::post('pegawai','Api\PegawaiController@store'); //create
     Route::get('pegawai/waiter','Api\PegawaiController@showWaiter'); //show waiter
+    Route::get('pegawai/kasir','Api\PegawaiController@showKasir'); //show waiter
 //    Route::put('pegawai/{id}{role}','Api\PegawaiController@update'); //update
     Route::put('pegawai/{id}','Api\PegawaiController@update'); //update
     Route::get('pegawai/{id}','Api\PegawaiController@show'); //search
@@ -62,16 +63,18 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     Route::post('reservasi','Api\ReservasiController@store'); //create
     Route::post('reservasi/select','Api\ReservasiController@showSelect'); //read
     Route::post('reservasi/updateStatus/{id}','Api\ReservasiController@updateStatus'); //update status reservasi
+    Route::get('reservasi/aktif','Api\ReservasiController@showReservasiAktif'); //read
     Route::get('reservasi','Api\ReservasiController@index'); //read
     Route::put('reservasi/{id}','Api\ReservasiController@update'); //update
     Route::delete('reservasi/{id}','Api\ReservasiController@destroy'); //delete
     Route::get('reservasi/{id}','Api\ReservasiController@show'); //search
 
     //transaksi
-    Route::post('transaksi','Api\PembayaranController@store'); //create
-    Route::get('transaksi','Api\PembayaranController@index'); //read
-    Route::put('transaksi/{id}','Api\PembayaranController@update'); //update
-    Route::get('transaksi/{id}','Api\PembayaranController@show'); //search
+    Route::post('transaksi','Api\TransaksiController@store'); //create
+    Route::get('transaksi','Api\TransaksiController@index'); //read
+    Route::get('transaksi/showStruk/{id}','Api\TransaksiController@showStruk'); //read
+    Route::put('transaksi/{id}','Api\TransaksiController@update'); //update
+    Route::get('transaksi/{id}','Api\TransaksiController@show'); //search
 
     //kartu
     Route::post('kartu','Api\KartuController@store'); //create
@@ -83,19 +86,24 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     //order
     Route::post('order','Api\OrderController@store'); //create
     Route::get('order','Api\OrderController@index'); //read
+    Route::get('order/byReservasi/{id}','Api\OrderController@showByReservasi'); //search
     Route::put('order/{id}','Api\OrderController@update'); //update
     Route::get('order/{id}','Api\OrderController@show'); //search
 
     //detail order
     Route::post('detailOrder','Api\DetailOrderController@store'); //create
+    Route::post('detailOrder/statusCart/{id}','Api\DetailOrderController@updateStatusCart'); //update cart
+    Route::post('detailOrder/status/{id}','Api\DetailOrderController@updateStatus'); //update
     Route::get('detailOrder','Api\DetailOrderController@index'); //read
+    Route::get('detailOrder/showOrder/','Api\DetailOrderController@showOrderChef'); //read
+    Route::get('detailOrder/showStruk/{id}','Api\DetailOrderController@showStruk'); //read
+    Route::get('detailOrder/showCart/{id}','Api\DetailOrderController@showCart'); //read
     Route::put('detailOrder/{id}','Api\DetailOrderController@update'); //update
+    Route::delete('detailOrder/{id}','Api\DetailOrderController@destroy'); //delete
     Route::get('detailOrder/{id}','Api\DetailOrderController@show'); //search
 
     //menu
     Route::post('menu','Api\MenuController@store'); //create
-//    Route::put('menu/updateKetersediaan/{id}','Api\MenuController@updateKetersediaan'); //update ketersediaan
-//    Route::get('menu/updateKetersediaan/{id}','Api\MenuController@updateKetersediaan'); //update ketersediaan
     Route::get('menu','Api\MenuController@index'); //read
     Route::put('menu/{id}','Api\MenuController@update'); //update
     Route::delete('menu/{id}','Api\MenuController@destroy'); //delete
@@ -106,6 +114,7 @@ Route::group([], function(){//jangan lupa dimasukin middleware pas udah kelar de
     Route::post('bahan','Api\BahanController@store'); //create
     Route::get('bahan','Api\BahanController@index'); //read
     Route::get('bahan/kosong','Api\BahanController@showKosong'); //read kosong
+    Route::get('bahan/laporan/makanan','Api\BahanController@showLaporanMakanan'); //read kosong
     Route::put('bahan/stokMasuk/{id}','Api\BahanController@updateStokMasuk'); //update dari stok masuk
     Route::put('bahan/stokKeluar/{id}','Api\BahanController@updateStokKeluar'); //update dari stok keluar
     Route::put('bahan/{id}','Api\BahanController@update'); //update

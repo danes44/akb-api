@@ -57,17 +57,17 @@ class StokMasukController extends Controller
         $updateData = $request->all();
 
         $stokMasuk=DB::table('stok_masuk')
-            ->whereNull('deleted_at')
-            ->whereDate('created_at','=',$updateData['created_at'])
+            ->join('bahan','bahan.id_bahan','=','stok_masuk.id_bahan')
+            ->select('bahan.*','bahan.created_at AS created_at_bahan','stok_masuk.*')
+            ->whereNull('stok_masuk.deleted_at')
+            ->whereDate('stok_masuk.created_at','=',$updateData['created_at'])
             ->get();
-
 
         if(!is_null($stokMasuk)){
             return response([
                 'message'  => 'Retrieve Stok Masuk Success',
                 'data' => $stokMasuk
             ],200);
-
         }
 
         return response([

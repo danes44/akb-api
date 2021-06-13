@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Kartu;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -48,19 +49,21 @@ class KartuController extends Controller
 
     public function store(Request $request){
         $storeData = $request->all();
+        $storeData['expired_date'] = Carbon::createFromFormat('Y-m',$storeData['expired_date']);
         $validate = Validator::make($storeData,[
             'no_kartu' => 'required|digits_between:13,16|unique:kartu',
             'tipe_kartu' => 'required|string|in:debit,credit',
             'nama_pemilik' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'expired_date' => 'required|date'
+            'expired_date' => 'required'
         ]);
 
         if($validate->fails())
         {
             return response(['message'=> $validate->errors()],400);
         }
-
         $kartu = Kartu::create($storeData);
+//        $search = Kartu::where('updated_at','<>',null);
+//        $search->updated_at = null;
         return response([
             'message' => 'Add Kartu Success',
             'data' => $kartu,
@@ -106,17 +109,19 @@ class KartuController extends Controller
             'no_kartu' => ['required','digits_between:13,16',Rule::unique('kartu')->ignore($kartu)],
             'tipe_kartu' => 'required|string|in:debit,credit',
             'nama_pemilik' => 'required|string|regex:/^[\pL\s\-]+$/u',
-            'expired_date' => 'required|date'
+            'expired_date' => 'required'
         ]);
 
         if($validate->fails())
             return response(['message'=> $validate->errors()],400);
-
+        $updateData['expired_date'] = Carbon::createFromFormat('!Y-m',$updateData['expired_date'])->endOfMonth();
+        //harus pake format ! di carbon biar reset semua tanggal trus diisi pake formatnya yang baru
 
         $kartu->no_kartu =  $updateData['no_kartu'];
         $kartu->tipe_kartu =  $updateData['tipe_kartu'];
         $kartu->nama_pemilik =  $updateData['nama_pemilik'];
         $kartu->expired_date =  $updateData['expired_date'];
+
 
         if($kartu->save()){
             return response([

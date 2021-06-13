@@ -10,10 +10,10 @@ class Order extends Model
 {
     protected $table = 'order';
     protected $primaryKey = 'id_order';
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
-        'id_reservasi'
+        'id_reservasi','tgl_order'
     ];
 
     public function getCreatedAtAttribute(){

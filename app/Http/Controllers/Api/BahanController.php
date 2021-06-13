@@ -67,6 +67,77 @@ class BahanController extends Controller
         ],404);
     }
 
+    public function showLaporanMakanan(){
+//        $stokKeluar = DB::table('stok_keluar')
+//            ->select('stok_keluar.id_bahan','stok_keluar.status',
+//                DB::raw('sum(jumlah) as waste'))
+//            ->where('stok_keluar.status','=','sisa')
+//            ->groupBy('stok_keluar.id_bahan','stok_keluar.status')
+//            ->get();
+
+//        $bahan=DB::table('bahan')
+//            ->join('stok_masuk','bahan.id_bahan','=','stok_masuk.id_bahan')
+//            ->join('menu','bahan.id_bahan','=','menu.id_bahan')
+//            ->select('bahan.*',
+//                DB::raw('count(stok_masuk.jumlah) as jumlah_masuk'),'menu.tipe_menu')
+//            ->where('menu.tipe_menu','=','side dish')
+//            ->whereNull('bahan.deleted_at')
+//            ->groupBy('bahan.id_bahan')
+//            ->get();
+        $bahan=DB::table('bahan')
+            ->join('menu','menu.id_bahan','=','bahan.id_bahan')
+//            ->where('menu.tipe_menu','=','utama')
+            ->whereNull('bahan.deleted_at')
+            ->get();
+
+        if(!is_null($bahan)){
+            return response([
+                'message'  => 'Retrieve Bahan Success',
+                'data' => $bahan
+            ],200);
+
+        }
+
+        return response([
+            'message' => 'Bahan Not Found',
+            'data' => null
+        ],404);
+    }
+
+    public function showLaporanSideDish(){
+//        $stokKeluar = DB::table('stok_keluar')
+//            ->select('stok_keluar.id_bahan','stok_keluar.status',
+//                DB::raw('sum(jumlah) as waste'))
+//            ->where('stok_keluar.status','=','sisa')
+//            ->groupBy('stok_keluar.id_bahan','stok_keluar.status')
+//            ->get();
+
+        $bahan=DB::table('bahan')
+            ->leftJoin('stok_masuk','bahan.id_bahan','=','stok_masuk.id_bahan')
+            ->leftJoin('stok_keluar','bahan.id_bahan','=','stok_keluar.id_bahan')
+            ->select('bahan.*',DB::raw('count(stok_masuk.jumlah) as jumlah_masuk'),
+                'stok_keluar.id_bahan','stok_keluar.status')
+//            ->where('stok_keluar.status','=','sisa')
+            ->whereNull('bahan.deleted_at')
+            ->groupBy('bahan.id_bahan','stok_keluar.status')
+//            ->select('bahan.*','stok_masuk.jumlah as jumlah_masuk' )
+            ->get();
+
+
+        if(!is_null($bahan)){
+            return response([
+                'message'  => 'Retrieve Bahan Success',
+                'data' => $bahan
+            ],200);
+
+        }
+
+        return response([
+            'message' => 'Bahan Not Found',
+            'data' => null
+        ],404);
+    }
+
     public function store(Request $request){
         $storeData = $request->all();
         $validate = Validator::make($storeData,[

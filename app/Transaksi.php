@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Transaksi extends Model
 {
     use SoftDeletes;
-    protected $table = 'stok_keluar';
-    protected $primaryKey = 'id_stok_keluar';
-    public $timestamps = true;
+    protected $table = 'transaksi';
+    protected $primaryKey = 'no_transaksi';
+    public $timestamps = false;
 
     protected $fillable = [
         'id_transaksi','payment_method','no_verifikasi','id_order','id_kasir','subtotal','service','tax','total'

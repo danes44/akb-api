@@ -57,6 +57,29 @@ class ReservasiController extends Controller
         ],200);
     }
 
+    public function showReservasiAktif (){
+        $reservasi = DB::table('reservasi')
+            ->join('order','reservasi.id_reservasi','=','order.id_reservasi')
+            ->select('reservasi.id_reservasi', 'reservasi.status_reservasi', 'reservasi.created_at')
+            ->where('reservasi.status_reservasi','=','aktif')
+            ->whereNull('reservasi.deleted_at')
+            ->get();
+
+
+        if(count($reservasi)>0){
+            return response([
+                'message'  => 'Retrieve Reservasi Success',
+                'data' => $reservasi
+            ],200);
+
+        }
+
+        return response([
+            'message' => 'Reservasi Not Found',
+            'data' => null
+        ],404);
+    }
+
     public function show ($id){
         $reservasi = DB::table('reservasi')
             ->join('customer','customer.id_customer','=','reservasi.id_customer')

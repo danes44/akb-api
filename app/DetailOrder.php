@@ -10,10 +10,10 @@ class DetailOrder extends Model
 {
     protected $table = 'detail_order';
     protected $primaryKey = 'id_detail';
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
-        'jumlah_order','harga_jumlah','status_order','id_order', 'id_menu'
+        'jumlah_order','harga_jumlah','status_order','id_order', 'id_menu', 'waktu_order'
     ];
 
     public function getCreatedAtAttribute(){

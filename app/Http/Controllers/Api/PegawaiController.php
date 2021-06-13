@@ -112,6 +112,33 @@ class PegawaiController extends Controller
         ],404);
     }
 
+    public function showKasir (){
+        $pegawai = DB::table('pegawai')
+            ->join('role','pegawai.id_role','=','role.id_role')
+            ->select('pegawai.id_pegawai','pegawai.id_role',
+                'pegawai.nama_pegawai',
+                'role.role_pegawai')
+            ->where('pegawai.status_pegawai','=','aktif')
+            ->where(function ($query) {
+                $query->where('role.role_pegawai','=','Waiter dan Kasir')
+                    ->orWhere('role.role_pegawai','=','Kasir')
+                    ->orWhere('role.role_pegawai','=','Operasional Manager');
+            })
+            ->get();
+
+        if(count($pegawai)>0){
+            return response([
+                'message' =>'Retrieve All Success',
+                'data' =>$pegawai
+            ],200);
+        }
+
+        return response([
+            'message' => 'Empty',
+            'data' =>null
+        ],404);
+    }
+
     public function store(Request $request){
         $storeData = $request->all();
         if($storeData['status_pegawai']=='non aktif'){

@@ -19,15 +19,20 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f290eb25-3427-4f92-ba15-b540a181038b" name="Default Changelist" comment="add some handlers in controller Bahan, Pegawai, Reservasi. Add some coloumns in Reservasi, Pegawai. add some apis">
+    <list default="true" id="f290eb25-3427-4f92-ba15-b540a181038b" name="Default Changelist" comment="drop some coloumns with migrations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DetailOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DetailOrder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/BahanController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/BahanController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/DetailOrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/DetailOrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/KartuController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/KartuController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PegawaiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PegawaiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ReservasiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ReservasiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/StokKeluarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/StokKeluarController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/StokMasukController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/StokMasukController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/StokMasuk.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/StokMasuk.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_04_26_180145_add_field_status_reservasi.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/TransaksiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/TransaksiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Transaksi.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Transaksi.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -252,7 +257,13 @@
       <workItem from="1620913832985" duration="590000" />
       <workItem from="1620973991225" duration="4713000" />
       <workItem from="1621059840401" duration="2690000" />
-      <workItem from="1621136999041" duration="4568000" />
+      <workItem from="1621136999041" duration="28588000" />
+      <workItem from="1621581771921" duration="92000" />
+      <workItem from="1621584369252" duration="780000" />
+      <workItem from="1621939235288" duration="1180000" />
+      <workItem from="1622097979864" duration="613000" />
+      <workItem from="1622265926212" duration="49814000" />
+      <workItem from="1622637231543" duration="906000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1619018109407</created>
@@ -289,7 +300,21 @@
       <option name="project" value="LOCAL" />
       <updated>1620409584402</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add some handlers in controller Bahan, Pegawai, Reservasi. Add some coloumns in Reservasi, Pegawai. add some apis">
+      <created>1621172626648</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1621172626649</updated>
+    </task>
+    <task id="LOCAL-00007" summary="drop some coloumns with migrations">
+      <created>1621172653251</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1621172653251</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,13 +338,15 @@
     <MESSAGE value="add some where clause" />
     <MESSAGE value="add some handlers in ReservasiController" />
     <MESSAGE value="add some handlers in controller Bahan, Pegawai, Reservasi. Add some coloumns in Reservasi, Pegawai. add some apis" />
-    <option name="LAST_COMMIT_MESSAGE" value="add some handlers in controller Bahan, Pegawai, Reservasi. Add some coloumns in Reservasi, Pegawai. add some apis" />
+    <MESSAGE value="drop some coloumns with migrations" />
+    <option name="LAST_COMMIT_MESSAGE" value="drop some coloumns with migrations" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2056" y="280" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1618644978833">
+    <state x="2056" y="280" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1622408412551">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
-    <state x="2056" y="280" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1618644978833" />
+    <state x="2056" y="280" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1622408412551" />
+    <state x="491" y="197" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.738@0.0.1366.738" timestamp="1622376276017" />
     <state x="2102" y="437" key="ComposerInitDialogKey" timestamp="1618943826364">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
@@ -329,11 +356,11 @@
     </state>
     <state x="295" y="28" key="SettingsEditor/0.0.1366.738/1366.0.1920.1050@0.0.1366.738" timestamp="1616576838338" />
     <state x="1781" y="167" key="SettingsEditor/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1616082010718" />
-    <state x="1918" y="258" key="Vcs.Push.Dialog.v2" timestamp="1619443474802">
+    <state x="1918" y="258" key="Vcs.Push.Dialog.v2" timestamp="1621172661885">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
     <state x="393" y="181" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1920.1050@0.0.1366.738" timestamp="1619366542697" />
-    <state x="1918" y="258" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1619443474802" />
+    <state x="1918" y="258" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1621172661885" />
     <state x="370" y="0" width="1012" height="825" key="dock-window-1" timestamp="1618737901904">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
